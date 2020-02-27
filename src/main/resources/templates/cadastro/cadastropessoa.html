@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf8">
+<title>Spring é vida!</title>
+
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
+ <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.css"  media="screen,projection"/>
+ 
+</head>
+<body>
+
+	<div class="container">
+
+		<h1>Cadastro de Pessoa</h1>
+		
+		<form action="salvarpessoa" method="post" th:object="${pessoaobj}">
+			
+			<input type="hidden" name="id"  th:field="*{id}" >
+			<div>
+				<label>Nome</label>
+				<input type="text"  name="nome"  th:field="*{nome}">
+			</div>
+			
+			<div>
+				<label>Sobrenome</label>
+				<input type="text"  name="sobrenome" th:field="*{sobrenome}">
+			</div>
+			
+			<div>
+				<label>idade</label>
+				<input type="text" name="idade"  th:field="*{idade}">
+			</div>
+			
+			<div>
+				<input type="submit" class="waves-effect waves-light btn" value="Enviar" >
+			</div>
+			
+		</form>
+		
+		<a href="listapessoa">Lista Pessoas</a>
+		
+		<div>
+			<table>
+				<th>Nome</th>
+				<th>Sobrenome</th>
+				<th>Idade</th>
+				<th>Ações</th>
+				<tr th:each = "pessoa : ${pessoas}">
+					<td th:text = "${pessoa.nome}"></td>
+					<td th:text = "${pessoa.sobrenome}"></td>
+					<td th:text = "${pessoa.idade}"></td>
+					<td>
+						<a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a>
+						<a th:href="@{/excluirpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
+					</td>
+				</tr>
+			</table>
+			
+		</div>
+	
+	</div>
+	
+	<script type="text/javascript" src="materialize/css/materialize.min.js"></script>
+	<script type="text/javascript" src="materialize/css/materialize.js"></script>
+</body>
+</html>
