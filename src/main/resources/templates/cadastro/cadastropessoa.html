@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf8">
+<meta charset="UTF-8">
 <title>Spring é vida!</title>
 
  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,54 +12,75 @@
 <body>
 
 	<div class="container">
-
-		<h1>Cadastro de Pessoa</h1>
+		<div class="col s12 center" style="padding:20px;">
+			<h3>Spring Boot + Thymeleaf + Materialize</h3>
+		</div>
+		<div class="col s12 center" style="padding:30px;">
+			<h5>Cadastro de Pessoas</h5>
+		</div>
 		
-		<form action="salvarpessoa" method="post" th:object="${pessoaobj}">
-			
-			<input type="hidden" name="id"  th:field="*{id}" >
-			<div>
-				<label>Nome</label>
-				<input type="text"  name="nome"  th:field="*{nome}">
-			</div>
-			
-			<div>
-				<label>Sobrenome</label>
-				<input type="text"  name="sobrenome" th:field="*{sobrenome}">
-			</div>
-			
-			<div>
-				<label>idade</label>
-				<input type="text" name="idade"  th:field="*{idade}">
-			</div>
-			
-			<div>
-				<input type="submit" class="waves-effect waves-light btn" value="Enviar" >
-			</div>
-			
-		</form>
+		<div class="row">
+			<form class="col s12" action="salvarpessoa" method="post" th:object="${pessoaobj}">
+				<div class="col s12">
+					<input type="hidden" name="id"  th:field="*{id}" >
+					<div class="input-field col s4">
+						<label class="active" for="nome">Nome</label>
+						<input type="text"  name="nome" id="nome"  th:field="*{nome}">
+					</div>
+					
+					<div class="input-field col s4">
+						<label class="active" for="sobrenome">Sobrenome</label>
+						<input type="text" id="sobrenome"  name="sobrenome" th:field="*{sobrenome}">
+					</div>
+					
+					<div class="input-field col s4">
+						<label class="active" for="idade">idade</label>
+						<input type="text" id="idade"  name="idade"  th:field="*{idade}">
+					</div>
+									
+					<div class="col s12 center" style="padding-top:20px;">
+						<input type="submit" class="waves-effect waves-light btn" style="width:100%" value="Salvar" >
+					</div>
+				</div>
+			</form>
+		</div>
 		
-		<a href="listapessoa">Lista Pessoas</a>
+		<div class="row" style="padding:20px;">
+			<form class="col s12" action="pesquisaPessoa" method="post">
+				<div class="row">
+					<div class="input-field col s12">
+						<label class="active" for="nomepesquisa">Pesquisa por nome</label>
+						<input name="nomepesquisa" id="nomepesquisa"></input>
+						<input type="submit" class="waves-effect waves-light btn" value="Buscar"></input>
+						<a class="waves-effect waves-light btn" href="listapessoa">Listar todas as pessoas</a>
+					</div>
+				</div>
+			</form>
+		</div>
 		
 		<div>
-			<table>
-				<th>Nome</th>
-				<th>Sobrenome</th>
-				<th>Idade</th>
-				<th>Ações</th>
-				<tr th:each = "pessoa : ${pessoas}">
-					<td th:text = "${pessoa.nome}"></td>
-					<td th:text = "${pessoa.sobrenome}"></td>
-					<td th:text = "${pessoa.idade}"></td>
-					<td>
-						<a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a>
-						<a th:href="@{/excluirpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
-					</td>
-				</tr>
+			<table class="striped centered responsive-table">
+				<thead>
+					<th>Cód</th>
+					<th>Nome</th>
+					<th>Sobrenome</th>
+					<th>Idade</th>
+					<th>Ações</th>
+				</thead>
+				<tbody>
+					<tr th:each = "pessoa : ${pessoas}">
+						<td th:text = "${pessoa.id}"></td>
+						<td th:text = "${pessoa.nome}"></td>
+						<td th:text = "${pessoa.sobrenome}"></td>
+						<td th:text = "${pessoa.idade}"></td>
+						<td>
+							<a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a>
+							<a th:href="@{/excluirpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
+						</td>
+					</tr>
+				</tbody>
 			</table>
-			
 		</div>
-	
 	</div>
 	
 	<script type="text/javascript" src="materialize/css/materialize.min.js"></script>
