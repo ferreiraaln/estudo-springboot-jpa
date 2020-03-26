@@ -1,9 +1,14 @@
 package curso.springboot.controller;
 
+import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +21,7 @@ import curso.springboot.model.Pessoa;
 import curso.springboot.model.Telefone;
 import curso.springboot.repository.PessoaRepository;
 import curso.springboot.repository.TelefoneRepository;
+import validations.ValidaForm;
 
 @Controller
 public class PessoaController {
@@ -36,14 +42,22 @@ public class PessoaController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value = "**/salvarpessoa")
-	public ModelAndView salvar(Pessoa pessoa) {
-		
-		PessoaRepository.save(pessoa);
+	public ModelAndView salvar(@Valid Pessoa pessoa, BindingResult bindingResult) {
 		
 		ModelAndView andView = new ModelAndView("cadastro/cadastropessoa");
 		Iterable<Pessoa> pessoaIt = PessoaRepository.findAll();
+		andView.addObject("msg", "Salvo com sucesso!");
+		
+		if(bindingResult.hasErrors()) {
+			List<String> msg = new ValidaForm(bindingResult.getAllErrors()).getMsg();
+			andView.addObject("pessoaobj", pessoa);
+			andView.addObject("msg", msg);
+		}else {
+			PessoaRepository.save(pessoa);
+			andView.addObject("pessoaobj", new Pessoa());
+		}
+		
 		andView.addObject("pessoas", pessoaIt);
-		andView.addObject("pessoaobj", new Pessoa());
 		
 		return andView;
 	}
@@ -107,16 +121,22 @@ public class PessoaController {
 	}
 	
 	@PostMapping("**/addfonePessoa/{pessoaid}")
-	public ModelAndView addFonePessoa(Telefone telefone,@PathVariable("pessoaid") Long pessoaid) {
+	public ModelAndView addFonePessoa(@Valid Telefone telefone,BindingResult bindingResult,@PathVariable("pessoaid") Long pessoaid) {
 		 
 		Pessoa pessoa  = PessoaRepository.findById(pessoaid).get();
 		telefone.setPessoa(pessoa);
-		
-		telefoneRepository.save(telefone);
-		
+	
 		ModelAndView andView = new ModelAndView("cadastro/telefones");
 		andView.addObject("pessoaobj", pessoa);
 		andView.addObject("telefones", telefoneRepository.getTelefones(pessoaid));
+		andView.addObject("msg", "Telefone salvo com sucesso!");
+		
+		if(bindingResult.hasErrors()) {
+			List<String> msg = new ValidaForm(bindingResult.getAllErrors()).getMsg();
+			andView.addObject("msg", msg);
+		}else {
+			telefoneRepository.save(telefone);
+		}
 		
 		return andView;
 	}

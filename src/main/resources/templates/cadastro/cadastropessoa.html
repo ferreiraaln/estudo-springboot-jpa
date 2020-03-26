@@ -17,6 +17,11 @@
 		</div>
 		
 		<div class="row">
+		
+			<div th:each = "m : ${msg}">
+				<span th:text = "${m}"></span>
+			</div>
+			
 			<form class="col s12" action="salvarpessoa" method="post" th:object="${pessoaobj}">
 				<div class="col s12">
 					<input type="hidden" name="id"  th:field="*{id}" >
