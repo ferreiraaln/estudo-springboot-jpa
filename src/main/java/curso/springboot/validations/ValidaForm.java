@@ -1,4 +1,4 @@
-package validations;
+package curso.springboot.validations;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Spring é vida!</title>
@@ -16,13 +17,13 @@
 			<h5>Cadastro de Pessoas</h5>
 		</div>
 		
-		<div class="row">
+		<div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
 		
 			<div th:each = "m : ${msg}">
 				<span th:text = "${m}"></span>
 			</div>
 			
-			<form class="col s12" action="salvarpessoa" method="post" th:object="${pessoaobj}">
+			<form class="col s12" action="salvarpessoa" method="post" th:object="${pessoaobj}" >
 				<div class="col s12">
 					<input type="hidden" name="id"  th:field="*{id}" >
 					<div class="input-field col s4">

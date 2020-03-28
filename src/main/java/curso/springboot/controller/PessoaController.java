@@ -21,7 +21,7 @@ import curso.springboot.model.Pessoa;
 import curso.springboot.model.Telefone;
 import curso.springboot.repository.PessoaRepository;
 import curso.springboot.repository.TelefoneRepository;
-import validations.ValidaForm;
+import curso.springboot.validations.ValidaForm;
 
 @Controller
 public class PessoaController {
